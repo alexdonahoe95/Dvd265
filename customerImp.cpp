@@ -98,21 +98,21 @@ bool  CustomerType::operator<=(const CustomerType &right) const
 {
     return(custAcctNo <= right.custAcctNo);
 }
-bool  CustomerType::operator<(const CustomerType &right) const
+bool  CustomerType::operator<(const CustomerType& right) const
 {
-    return(custAcctNo < right.getAcctNo);
+    return(custAcctNo < right.custAcctNo);
 }
 bool  CustomerType::operator>=(const CustomerType &right) const
 {
-    return(custAcctNo >= right.getAcctNo);
+    return(custAcctNo >= right.custAcctNo);
 }
 bool  CustomerType::operator>(const CustomerType &right) const
 {
-    return(custAcctNo > right.getAcctNo);
+    return(custAcctNo > right.custAcctNo);
 }
 ostream& operator<<(ostream& os, CustomerType& cus)
 {
-    os << cus.firstName + " " + cus.lastName + " " + cus.custAcctNo;
+    os << cus.firstName + " " + cus.lastName + " Customer Account Number:" << cus.custAcctNo;
     return os;
 }
 //Missing parts :(
