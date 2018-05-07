@@ -33,6 +33,8 @@ public:
 	int getAcctNo();
 	  //This function returns the account number of
 	  //the customer.
+     string getFirstName();
+     string getLastName();
 
 	void printRentedDVD();
 
@@ -55,6 +57,8 @@ public:
 	bool operator>(const CustomerType&) const;
      
 private:
+    string firstName;
+    string lastName;
 	int custAcctNo; // store account number
 	LinkedBinarySearchTree<string> rentedDVDTree;
 };
