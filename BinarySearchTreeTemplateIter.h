@@ -12,7 +12,7 @@
 //1: The first super Parent is used as a sentinel node and so are the deepest external nodes
 //Reason: simplifying the implementation of update methods and iterator's methods e.g., end()
 //2:Only internal nodes are used to hold data and information.
-//3:Iterator Begin method returns the first node expected to be visited by inorder traversal algorith
+//3:Iterator Begin method returns the first node expected to be visited by inorder traversal algorithm
 //4:Iterator end method returns an iterator that points to the sentinel root node
 //5:method size returns number of the nodes that currently hold data (internals).
 //6: if you have any question please contact me via Piazza, Skype for Business, or email.

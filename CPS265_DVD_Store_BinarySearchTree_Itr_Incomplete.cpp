@@ -20,8 +20,27 @@ int main()
 {
 	//First: Creating dvd list (dvdList) and sending it to the function that fills it from the file
 
-	//Missing code :(
-	//.............
+	//DVDDat.txt Schema============
+	//Title 
+	//Star 1
+	//Star 2
+	//Producer
+	//Director
+	//Production Company
+	//Copies in stock
+	LinkedBinarySearchTree<DvdType> dvdList;  // tree of customers
+	ifstream infile;
+	infile.open("dvdDat.txt");
+	if (!infile)
+	{
+		cout << "Input file does not exist" << endl;
+		return 1;
+	}
+	createDVDList(infile, dvdList);
+	infile.close();
+
+
+
 
 
 	//then, reading customers from the text file:--------------------------------------------------------
@@ -42,7 +61,7 @@ int main()
 	string title;
 	int id;
 	char discard;
-	// show menu
+	// Initial Menu Render
 	displayMenu();
 	cout << "Enter choice: ";
 	cin >> choice;
@@ -59,7 +78,11 @@ int main()
 		case 2: {		}
 
 				break;
-		case 3: {					}
+		case 3: {
+			//Check In DVD
+			
+		
+		}
 
 				break;
 		case 4: {
@@ -110,19 +133,71 @@ int main()
 			cout << "Invalid selection." << endl;
 		}
 
+		//Render Menu
 		displayMenu();
 		cout << "Enter choice: ";
 		cin >> choice;
-		cin.get(discard);
+		cin.get(discard); 
 		cout << endl;
-	}//end while
+	}//end while (If choice != 10)
+
+	//Exit with normal status.
 	return 0;
 }
+int getLineCount(ifstream& infile) {
+	int lineCount = 0;
+	string line;
+
+	while (getline(infile, line)) {
+		lineCount++;
+	}
+
+	infile.clear();
+
+	return lineCount;
+}
+
 void createDVDList(ifstream& infile, LinkedBinarySearchTree<DvdType>& dvdList)
 {
-	//Missing parts :(
-	//.............
 
+	//DVDDat.txt Schema (In Order)
+	//Title 
+	//Star 1
+	//Star 2
+	//Producer
+	//Director
+	//Production Company
+	//Copies in stock
+
+	int totalLines = getLineCount(infile);
+	//Used to determine if at EOF
+	int currentLine = 0;
+	string dvdTitle;
+	string star1;
+	string star2;
+	string movieProducer;
+	string movieDirector;
+	string movieProductionCo;
+	int copiesInStock;
+	DvdType *dvdInsert;
+
+
+	while (currentLine < totalLines) {
+		getline(infile, dvdTitle);
+		getline(infile, star1);
+		getline(infile, star2);
+		getline(infile, movieProducer);
+		getline(infile, movieDirector);
+		getline(infile, movieProductionCo);
+		infile >> copiesInStock;
+
+		currentLine += 6;
+		dvdInsert = new DvdType(dvdTitle, star1, star2, movieProducer, movieDirector, movieProductionCo, copiesInStock);
+
+		dvdList.insert(*dvdInsert);
+	}
+
+	infile.close();
 }//end createDVDList
 
 void createCustomerList(ifstream& infile, LinkedBinarySearchTree<CustomerType>& custList)
