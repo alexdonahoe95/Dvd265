@@ -20,15 +20,7 @@ int main()
 {
 	//First: Creating dvd list (dvdList) and sending it to the function that fills it from the file
 
-	//DVDDat.txt Schema============
-	//Title 
-	//Star 1
-	//Star 2
-	//Producer
-	//Director
-	//Production Company
-	//Copies in stock
-	LinkedBinarySearchTree<DvdType> dvdList;  // tree of customers
+	LinkedBinarySearchTree<DvdType> dvdList;  // tree of DVDs
 	ifstream infile;
 	infile.open("dvdDat.txt");
 	if (!infile)
@@ -38,10 +30,6 @@ int main()
 	}
 	createDVDList(infile, dvdList);
 	infile.close();
-
-
-
-
 
 	//then, reading customers from the text file:--------------------------------------------------------
 	LinkedBinarySearchTree<CustomerType> custList;  // tree of customers
@@ -71,21 +59,82 @@ int main()
 	while (choice != 10)
 	{
 		cout << " Choice: " << choice << endl;
+		cout << "===========================================" << endl;
+		cout << endl;
+
 		switch (choice)
 		{
-		case 1: {		}
+		case 1: {
+			//Check if store carries DVD
+			cout << "Enter the title: ";
+			getline(cin, title);
+			cout << endl;
+			DvdType tempTargetDvD;
+			tempTargetDvD.setDVDInfo(title, "", "", "", "", "", 0);
+			LinkedBinarySearchTree<DvdType>::Iterator DvDIter = dvdList.find(tempTargetDvD);
+			if (DvDIter == dvdList.end())
+				cout << "No Movie with the title [" << title << "] was found :(\n";
+			else {
+				cout << "The Movie with the title [" << title << "] was found :)\n";
+			}
+		}
 				break;
-		case 2: {		}
+		case 2: {
+			cout << "Enter the title of the movie to checkout: ";
+			getline(cin, title);
+			cout << endl;
+			DvdType tempTargetDvD;
+			tempTargetDvD.setDVDInfo(title, "", "", "", "", "", 0);
+			LinkedBinarySearchTree<DvdType>::Iterator DvDIter = dvdList.find(tempTargetDvD);
+			if (DvDIter == dvdList.end())
+				cout << "No Movie with the title [" << title << "] was found. \n";
+			else {
+				if ((*DvDIter).getNoOfCopiesInStock() > 0) {
+					cout << "Please enter account number to put movie under:";
+					cin >> id;
+					cout << endl;
+					
+					//Generate temporary account to search BST.
+					CustomerType tempTargetCustomer;
+					tempTargetCustomer.setCustInfo("", "", id);
 
+					//Search for account number
+					LinkedBinarySearchTree<CustomerType>::Iterator custIter = custList.find(tempTargetCustomer);
+
+					//If results were found, check out.
+					if (custIter != custList.end())
+					{
+						//Customer was found
+
+						//Add DVD to customer's checked out list.
+
+						//Check out from DVD library.
+						(*DvDIter).checkOut();
+					}
+					else {
+						cout << "Customer account number not found in database." << endl;
+					}
+
+
+
+					
+
+				}
+				else
+					cout << "Out of stock, unable to checkout." << endl;
+			}
+
+		}
 				break;
 		case 3: {
 			//Check In DVD
-			
-		
-		}
+			//Use almost same logic as above, except checking in.
 
+
+		}
 				break;
 		case 4: {
+			//Check if DVD is in Stock
 			cout << "Enter the title: ";
 			getline(cin, title);
 			cout << endl;
@@ -97,36 +146,49 @@ int main()
 			else {
 				cout << "The Movie with the title [" << title << "] was found :)\n";
 				if ((*DvDIter).getNoOfCopiesInStock() > 0) {
-					//Missing code :(
-					//.............
+					cout << "Copies available: " << (*DvDIter).getNoOfCopiesInStock() << endl;
 				}
 				else
 					cout << "Unfortunately, Out of stock" << endl;
 			}
-		}
 
+		}
 				break;
-		case 5: {				}
+		case 5: {
+			//Print titles of all DVDs in system
+			list<LinkedBinarySearchTree<DvdType>::Iterator> LDVD(custList.Iterators());
+			for (list<LinkedBinarySearchTree<DvdType>::Iterator>::iterator iter = LDVD.begin(); iter != LDVD.end(); ++iter) {
+				cout << (*(*iter)).getTitle << endl;
+			}
+		}
 				break;
-		case 6: {    			}
+		case 6: { 
+			//Print a list (full details) of DVDs.
+			list<LinkedBinarySearchTree<DvdType>::Iterator> LDVD(custList.Iterators());
+			for (list<LinkedBinarySearchTree<DvdType>::Iterator>::iterator iter = LDVD.begin(); iter != LDVD.end(); ++iter) {
+				cout << (*(*iter)) << endl;
+				}
+			}
 				break;
 		case 7: {
+			//Print List of customers.
+
 			list<LinkedBinarySearchTree<CustomerType>::Iterator> LCustomers(custList.Iterators());
 			for (list<LinkedBinarySearchTree<CustomerType>::Iterator>::iterator iter = LCustomers.begin(); iter != LCustomers.end(); ++iter) {
 				cout << (*(*iter)) << " " << endl;
 			}
 		}
 				break;
-		case 8:
-		{
-			//Missing parts :(
-			//.............
+		case 8: {
+			//Print DVDs rented by a customer
+			
 
 		}
 
 		break;
-		case 9:
-		{					}
+		case 9:{
+			//Print list of rented DVDs
+		}
 
 		break;
 		default:
@@ -144,6 +206,7 @@ int main()
 	//Exit with normal status.
 	return 0;
 }
+
 int getLineCount(ifstream& infile) {
 	int lineCount = 0;
 	string line;
@@ -180,7 +243,7 @@ void createDVDList(ifstream& infile, LinkedBinarySearchTree<DvdType>& dvdList)
 	string movieProductionCo;
 	int copiesInStock;
 	DvdType *dvdInsert;
-
+	
 
 	while (currentLine < totalLines) {
 		getline(infile, dvdTitle);
