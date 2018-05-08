@@ -22,6 +22,7 @@ CustomerType::CustomerType(string first, string last, int acctNo) :PersonType(fi
     firstName = first;
     lastName = last;
     custAcctNo = acctNo;
+   
  
 }
 //default constructor
@@ -82,7 +83,11 @@ string CustomerType::getLastName()
 }
 void CustomerType::printRentedDVD()
 {
-    rentedDVDTree.levelWiseTravese();
+    list<LinkedBinarySearchTree<string>::Iterator> renteddvd(rentedDVDTree.Iterators());
+    for (list<LinkedBinarySearchTree<string>::Iterator>::iterator iter = renteddvd.begin(); iter != renteddvd.end(); ++iter)
+    {
+        cout << (*(*iter));
+    }
 }
 
 bool CustomerType::operator==(const CustomerType& right) const
