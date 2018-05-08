@@ -19,9 +19,10 @@ bool CustomerType::rentDVD(string title)
 //constructor
 CustomerType::CustomerType(string first, string last, int acctNo) :PersonType(first, last)
 {
-    custAcctNo = acctNo;
     firstName = first;
     lastName = last;
+    custAcctNo = acctNo;
+ 
 }
 //default constructor
 CustomerType::CustomerType()
@@ -32,8 +33,7 @@ CustomerType::CustomerType()
 }
 void CustomerType::print()
 {
-    cout << "Customer Account Number " + getAcctNo();
-    cout << "Name " + getFirstName() + getLastName();
+    cout << "Customer Account Number " + getAcctNo() << "Name " + getFirstName() << " " + getLastName();
 }
 //Output account number, first name, last name, and 
 //number of rentals, in the form:
@@ -112,7 +112,7 @@ bool  CustomerType::operator>(const CustomerType &right) const
 }
 ostream& operator<<(ostream& os, CustomerType& cus)
 {
-    os << cus.firstName + " " + cus.lastName + " Customer Account Number:" << cus.custAcctNo;
+    os << cus.firstName + " " << cus.lastName + " Customer Account Number:" << cus.custAcctNo;
     return os;
 }
 //Missing parts :(
