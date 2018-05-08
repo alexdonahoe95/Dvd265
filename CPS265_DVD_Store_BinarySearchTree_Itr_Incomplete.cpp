@@ -102,6 +102,7 @@ int main()
 
                         //Check out from DVD library.
                         (*DvDIter).checkOut();
+                        (*custIter).rentDVD((*DvDIter).getTitle());
                     }
                     else {
                         cout << "Customer account number not found in database." << endl;
@@ -212,9 +213,20 @@ int main()
                 break;
         case 8: {
             //Print DVDs rented by a customer
-            list<LinkedBinarySearchTree<CustomerType>::Iterator> LCustomers(custList.Iterators());
-            for (list<LinkedBinarySearchTree<CustomerType>::Iterator>::iterator iter = LCustomers.begin(); iter != LCustomers.end(); iter++) {
-               (*(*iter)).printRentedDVD();
+            int k;
+            cout << "Please enter ID # of customer";
+            cin >> k;
+            CustomerType cust("", "", k);
+            LinkedBinarySearchTree<CustomerType>::Iterator CustomerIter = custList.find(cust);
+            if (CustomerIter != custList.end())
+            {
+                (*CustomerIter).printRentedDVD(); 
+               
+                break;
+            }
+            else {
+                cout << "customer not found";// enjoy
+                break;
             }
 
         }
@@ -222,7 +234,11 @@ int main()
                 break;
         case 9: 
         {
-            //Print list of rented DVDs
+            list<LinkedBinarySearchTree<CustomerType>::Iterator> LCustomers(custList.Iterators());
+            for (list<LinkedBinarySearchTree<CustomerType>::Iterator>::iterator iter = LCustomers.begin(); iter != LCustomers.end(); iter++) {
+                cout << (*(*iter)).getAcctNo() << endl;
+                (*(*iter)).printRentedDVD();
+            }
         }
         case 10:
         {
